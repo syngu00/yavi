@@ -15,32 +15,33 @@
  */
 package am.ik.yavi.constraint.array;
 
+import am.ik.yavi.constraint.base.ContainerConstraintBase;
+import am.ik.yavi.core.ConstraintPredicate;
+
 import java.util.Arrays;
 import java.util.function.ToIntFunction;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.ARRAY_CONTAINS;
-
-import am.ik.yavi.constraint.base.ContainerConstraintBase;
-import am.ik.yavi.core.ConstraintPredicate;
+import static am.ik.yavi.utils.MapUtils.singleArgs;
 
 public class DoubleArrayConstraint<T>
-		extends ContainerConstraintBase<T, double[], DoubleArrayConstraint<T>> {
+        extends ContainerConstraintBase<T, double[], DoubleArrayConstraint<T>> {
 
-	@Override
-	public DoubleArrayConstraint<T> cast() {
-		return this;
-	}
+    @Override
+    public DoubleArrayConstraint<T> cast() {
+        return this;
+    }
 
-	public DoubleArrayConstraint<T> contains(double v) {
-		this.predicates()
-				.add(ConstraintPredicate.of(x -> Arrays.stream(x).anyMatch(e -> e == v),
-						ARRAY_CONTAINS, () -> new Object[] { v }, VALID));
-		return this;
-	}
+    public DoubleArrayConstraint<T> contains(double v) {
+        this.predicates()
+                .add(ConstraintPredicate.of(x -> Arrays.stream(x).anyMatch(e -> e == v),
+                        ARRAY_CONTAINS, () -> singleArgs("v", v), VALID));
+        return this;
+    }
 
-	@Override
-	protected ToIntFunction<double[]> size() {
-		return x -> x.length;
-	}
+    @Override
+    protected ToIntFunction<double[]> size() {
+        return x -> x.length;
+    }
 }

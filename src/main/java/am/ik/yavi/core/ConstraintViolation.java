@@ -15,72 +15,72 @@
  */
 package am.ik.yavi.core;
 
-import java.util.Arrays;
-import java.util.Locale;
-
 import am.ik.yavi.message.MessageFormatter;
 
+import java.util.Locale;
+import java.util.Map;
+
 public class ConstraintViolation {
-	private final Object[] args;
+    private final Map<String, Object> args;
 
-	private final String defaultMessageFormat;
+    private final String defaultMessageFormat;
 
-	private final Locale locale;
+    private final Locale locale;
 
-	private final MessageFormatter messageFormatter;
+    private final MessageFormatter messageFormatter;
 
-	private final String messageKey;
+    private final String messageKey;
 
-	private final String name;
+    private final String name;
 
-	public ConstraintViolation(String name, String messageKey,
-			String defaultMessageFormat, Object[] args, MessageFormatter messageFormatter,
-			Locale locale) {
-		this.name = name;
-		this.messageKey = messageKey;
-		this.defaultMessageFormat = defaultMessageFormat;
-		this.args = args;
-		this.messageFormatter = messageFormatter;
-		this.locale = locale;
-	}
+    public ConstraintViolation(String name, String messageKey,
+                               String defaultMessageFormat, Map<String, Object> args, MessageFormatter messageFormatter,
+                               Locale locale) {
+        this.name = name;
+        this.messageKey = messageKey;
+        this.defaultMessageFormat = defaultMessageFormat;
+        this.args = args;
+        this.messageFormatter = messageFormatter;
+        this.locale = locale;
+    }
 
-	public Object[] args() {
-		return this.args;
-	}
+    public Map<String, Object> args() {
+        return this.args;
+    }
 
-	public String defaultMessageFormat() {
-		return this.defaultMessageFormat;
-	}
+    public String defaultMessageFormat() {
+        return this.defaultMessageFormat;
+    }
 
-	public ViolationDetail detail() {
-		return new ViolationDetail(this.messageKey, this.args, this.message());
-	}
+    public ViolationDetail detail() {
+        return new ViolationDetail(this.messageKey, this.args, this.message());
+    }
 
-	public Locale locale() {
-		return this.locale;
-	}
+    public Locale locale() {
+        return this.locale;
+    }
 
-	public String message() {
-		return this.messageFormatter.format(this.messageKey, this.defaultMessageFormat,
-				this.args, this.locale);
-	}
+    public String message() {
+        return this.messageFormatter.format(this.messageKey, this.defaultMessageFormat,
+                this.args, this.locale);
+    }
 
-	public String messageKey() {
-		return this.messageKey;
-	}
+    public String messageKey() {
+        return this.messageKey;
+    }
 
-	public String name() {
-		return this.name;
-	}
+    public String name() {
+        return this.name;
+    }
 
-	@Override
-	public String toString() {
-		return "ConstraintViolation{" + "name='" + name + '\'' + ", messageKey='"
-				+ messageKey + '\'' + ", defaultMessageFormat='" + defaultMessageFormat
-				+ '\'' + ", args=" + Arrays.toString(args) + '}';
-	}
+    @Override
+    public String toString() {
+        return "ConstraintViolation{" + "name='" + name + '\'' + ", messageKey='"
+                + messageKey + '\'' + ", defaultMessageFormat='" + defaultMessageFormat
+                + '\'' + ", args=" + args + '}';
+    }
 
-	public Object violatedValue() {
-		return this.args[this.args.length - 1];
-	}
+    public Object violatedValue() {
+        return this.args.get("value");
+    }
 }

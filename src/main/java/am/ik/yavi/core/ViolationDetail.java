@@ -15,40 +15,40 @@
  */
 package am.ik.yavi.core;
 
-import java.util.Arrays;
+import java.util.Map;
 
 /**
  * This class is intended to be used for the JSON serialization (such as Jackson)
  */
 public class ViolationDetail {
-	private final Object[] args;
+    private final Map<String, Object> args;
 
-	private final String defaultMessage;
+    private final String defaultMessage;
 
-	private final String key;
+    private final String key;
 
-	public ViolationDetail(String key, Object[] args, String defaultMessage) {
-		this.key = key;
-		this.args = args;
-		this.defaultMessage = defaultMessage;
-	}
+    public ViolationDetail(String key, Map<String, Object> args, String defaultMessage) {
+        this.key = key;
+        this.args = args;
+        this.defaultMessage = defaultMessage;
+    }
 
-	public Object[] getArgs() {
-		return args;
-	}
+    public Map<String, Object> getArgs() {
+        return args;
+    }
 
-	public String getDefaultMessage() {
-		return defaultMessage;
-	}
+    public String getDefaultMessage() {
+        return defaultMessage;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public String getKey() {
+        return key;
+    }
 
-	@Override
-	public String toString() {
-		return "ViolationDetail{" + "key='" + key + '\'' + ", args="
-				+ Arrays.toString(args) + ", defaultMessage='" + defaultMessage + '\''
-				+ '}';
-	}
+    @Override
+    public String toString() {
+        return "ViolationDetail{" + "key='" + key + '\'' + ", args="
+                + args + ", defaultMessage='" + defaultMessage + '\''
+                + '}';
+    }
 }

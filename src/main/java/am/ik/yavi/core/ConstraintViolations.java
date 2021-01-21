@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -95,7 +96,6 @@ public class ConstraintViolations implements List<ConstraintViolation> {
 	 *     collection is null
 	 * @throws IllegalArgumentException if some property of an element of the specified
 	 *     collection prevents it from being added to this list
-	 * @see #add(Object)
 	 */
 	@Override
 	public final boolean addAll(Collection<? extends ConstraintViolation> c) {
@@ -574,6 +574,6 @@ public class ConstraintViolations implements List<ConstraintViolation> {
 
 	@FunctionalInterface
 	public interface Callback {
-		void apply(String name, String messageKey, Object[] args, String defaultMessage);
+		void apply(String name, String messageKey, Map<String, Object> args, String defaultMessage);
 	}
 }

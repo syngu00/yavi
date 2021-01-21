@@ -15,36 +15,37 @@
  */
 package am.ik.yavi.constraint.array;
 
+import am.ik.yavi.constraint.base.ContainerConstraintBase;
+import am.ik.yavi.core.ConstraintPredicate;
+
 import java.util.function.ToIntFunction;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.ARRAY_CONTAINS;
-
-import am.ik.yavi.constraint.base.ContainerConstraintBase;
-import am.ik.yavi.core.ConstraintPredicate;
+import static am.ik.yavi.utils.MapUtils.singleArgs;
 
 public class CharArrayConstraint<T>
-		extends ContainerConstraintBase<T, char[], CharArrayConstraint<T>> {
+        extends ContainerConstraintBase<T, char[], CharArrayConstraint<T>> {
 
-	@Override
-	public CharArrayConstraint<T> cast() {
-		return this;
-	}
+    @Override
+    public CharArrayConstraint<T> cast() {
+        return this;
+    }
 
-	public CharArrayConstraint<T> contains(char v) {
-		this.predicates().add(ConstraintPredicate.of(x -> {
-			for (char e : x) {
-				if (e == v) {
-					return true;
-				}
-			}
-			return false;
-		}, ARRAY_CONTAINS, () -> new Object[] { v }, VALID));
-		return this;
-	}
+    public CharArrayConstraint<T> contains(char v) {
+        this.predicates().add(ConstraintPredicate.of(x -> {
+            for (char e : x) {
+                if (e == v) {
+                    return true;
+                }
+            }
+            return false;
+        }, ARRAY_CONTAINS, () -> singleArgs("v", v), VALID));
+        return this;
+    }
 
-	@Override
-	protected ToIntFunction<char[]> size() {
-		return x -> x.length;
-	}
+    @Override
+    protected ToIntFunction<char[]> size() {
+        return x -> x.length;
+    }
 }

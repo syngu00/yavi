@@ -15,16 +15,16 @@
  */
 package am.ik.yavi.core;
 
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
-public interface CustomConstraint<V>
-		extends Predicate<V>, ViolationMessage, ViolatedArguments {
+public interface CustomConstraint<V> extends Predicate<V>, ViolationMessage, ViolatedArguments {
 
-	Objects[] EMPTY_ARRAY = new Objects[0];
+    Map<String, Object> EMPTY_ARRAY = new HashMap<>();
 
-	@Override
-	default Object[] arguments() {
-		return EMPTY_ARRAY;
-	}
+    @Override
+    default Map<String, Object> arguments() {
+        return EMPTY_ARRAY;
+    }
 }

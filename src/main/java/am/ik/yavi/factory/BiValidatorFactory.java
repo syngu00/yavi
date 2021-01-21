@@ -55,7 +55,7 @@ import am.ik.yavi.message.MessageFormatter;
  * @since 0.5.0
  */
 public class BiValidatorFactory<E> extends ValidatorFactorySupport {
-	private final BiValidator.ErrorHandler<E> errorHandler;
+	private final ErrorHandler<E> errorHandler;
 
 	public BiValidatorFactory(@Nullable String messageKeySeparator,
 			@Nullable MessageFormatter messageFormatter,

@@ -16,9 +16,10 @@
 package am.ik.yavi.message;
 
 import java.util.Locale;
+import java.util.Map;
 
 @FunctionalInterface
 public interface MessageFormatter {
-	String format(String messageKey, String defaultMessageFormat, Object[] args,
-			Locale locale);
+    String format(String messageKey, String defaultMessageFormat, Map<String, Object> args,
+                  Locale locale);
 }

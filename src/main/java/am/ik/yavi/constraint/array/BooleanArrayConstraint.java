@@ -15,36 +15,37 @@
  */
 package am.ik.yavi.constraint.array;
 
+import am.ik.yavi.constraint.base.ContainerConstraintBase;
+import am.ik.yavi.core.ConstraintPredicate;
+
 import java.util.function.ToIntFunction;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.ARRAY_CONTAINS;
-
-import am.ik.yavi.constraint.base.ContainerConstraintBase;
-import am.ik.yavi.core.ConstraintPredicate;
+import static am.ik.yavi.utils.MapUtils.singleArgs;
 
 public class BooleanArrayConstraint<T>
-		extends ContainerConstraintBase<T, boolean[], BooleanArrayConstraint<T>> {
+        extends ContainerConstraintBase<T, boolean[], BooleanArrayConstraint<T>> {
 
-	@Override
-	public BooleanArrayConstraint<T> cast() {
-		return this;
-	}
+    @Override
+    public BooleanArrayConstraint<T> cast() {
+        return this;
+    }
 
-	public BooleanArrayConstraint<T> contains(boolean v) {
-		this.predicates().add(ConstraintPredicate.of(x -> {
-			for (boolean e : x) {
-				if (e == v) {
-					return true;
-				}
-			}
-			return false;
-		}, ARRAY_CONTAINS, () -> new Object[] { v }, VALID));
-		return this;
-	}
+    public BooleanArrayConstraint<T> contains(boolean v) {
+        this.predicates().add(ConstraintPredicate.of(x -> {
+            for (boolean e : x) {
+                if (e == v) {
+                    return true;
+                }
+            }
+            return false;
+        }, ARRAY_CONTAINS, () -> singleArgs("v", v), VALID));
+        return this;
+    }
 
-	@Override
-	protected ToIntFunction<boolean[]> size() {
-		return x -> x.length;
-	}
+    @Override
+    protected ToIntFunction<boolean[]> size() {
+        return x -> x.length;
+    }
 }

@@ -15,6 +15,7 @@
  */
 package am.ik.yavi.core;
 
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
@@ -23,9 +24,9 @@ import java.util.function.BiConsumer;
  * The result of validation is contained in the errors object instead of returning it.
  * This class is useful for a library to adapt both YAVI and other validation library such
  * as Spring Framework's <code>org.springframework.validation.Validator</code>.
- *
+ * <p>
  * Validator can be wrapped as follows:
- * 
+ *
  * <pre>
  * Validator&lt;CartItem&gt; validator = ValidatorBuilder.&lt;CartItem&gt; of()
  *                        .constraint(CartItem::getQuantity, "quantity", c -> c.greaterThan(0))
@@ -40,24 +41,24 @@ import java.util.function.BiConsumer;
  * @since 0.5.0
  */
 public class BiValidator<T, E> implements BiConsumer<T, E> {
-	private final Validator<T> validator;
+    private final Validator<T> validator;
 
-	private final ErrorHandler<E> errorHandler;
+    private final ErrorHandler<E> errorHandler;
 
-	public BiValidator(Validator<T> validator, ErrorHandler<E> errorHandler) {
-		this.validator = validator;
-		this.errorHandler = errorHandler;
-	}
+    public BiValidator(Validator<T> validator, ErrorHandler<E> errorHandler) {
+        this.validator = validator;
+        this.errorHandler = errorHandler;
+    }
 
-	public void accept(T target, E errors) {
-		final ConstraintViolations violations = this.validator.validate(target);
-		violations.apply((name, messageKey, args, defaultMessage) -> this.errorHandler
-				.handleError(errors, name, messageKey, args, defaultMessage));
-	}
+    public void accept(T target, E errors) {
+        final ConstraintViolations violations = this.validator.validate(target);
+        violations.apply((name, messageKey, args, defaultMessage) -> this.errorHandler
+                .handleError(errors, name, messageKey, args, defaultMessage));
+    }
 
-	@FunctionalInterface
-	public interface ErrorHandler<E> {
-		void handleError(E errors, String name, String messageKey, Object[] args,
-				String defaultMessage);
-	}
+    @FunctionalInterface
+    public interface ErrorHandler<E> {
+        void handleError(E errors, String name, String messageKey, Map<String, Object> args,
+                         String defaultMessage);
+    }
 }

@@ -16,6 +16,7 @@
 package am.ik.yavi.core;
 
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -24,58 +25,58 @@ import static am.ik.yavi.core.ViolationMessage.Default.OBJECT_NOT_NULL;
 
 public interface Constraint<T, V, C extends Constraint<T, V, C>> {
 
-	C cast();
+    C cast();
 
-	default C isNull() {
-		this.predicates().add(ConstraintPredicate.of(Objects::isNull, OBJECT_IS_NULL,
-				() -> new Object[] {}, NullAs.INVALID));
-		return this.cast();
-	}
+    default C isNull() {
+        this.predicates().add(ConstraintPredicate.of(Objects::isNull, OBJECT_IS_NULL,
+                () -> new HashMap<>(), NullAs.INVALID));
+        return this.cast();
+    }
 
-	default C message(String message) {
-		ConstraintPredicate<V> predicate = this.predicates().pollLast();
-		if (predicate == null) {
-			throw new IllegalStateException("no constraint found to override!");
-		}
-		this.predicates().addLast(predicate.overrideMessage(message));
-		return this.cast();
-	}
+    default C message(String message) {
+        ConstraintPredicate<V> predicate = this.predicates().pollLast();
+        if (predicate == null) {
+            throw new IllegalStateException("no constraint found to override!");
+        }
+        this.predicates().addLast(predicate.overrideMessage(message));
+        return this.cast();
+    }
 
-	default C message(ViolationMessage message) {
-		ConstraintPredicate<V> predicate = this.predicates().pollLast();
-		if (predicate == null) {
-			throw new IllegalStateException("no constraint found to override!");
-		}
-		this.predicates().addLast(predicate.overrideMessage(message));
-		return this.cast();
-	}
+    default C message(ViolationMessage message) {
+        ConstraintPredicate<V> predicate = this.predicates().pollLast();
+        if (predicate == null) {
+            throw new IllegalStateException("no constraint found to override!");
+        }
+        this.predicates().addLast(predicate.overrideMessage(message));
+        return this.cast();
+    }
 
-	default C notNull() {
-		this.predicates().add(ConstraintPredicate.of(Objects::nonNull, OBJECT_NOT_NULL,
-				() -> new Object[] {}, NullAs.INVALID));
-		return this.cast();
-	}
+    default C notNull() {
+        this.predicates().add(ConstraintPredicate.of(Objects::nonNull, OBJECT_NOT_NULL,
+                () -> new HashMap<>(), NullAs.INVALID));
+        return this.cast();
+    }
 
-	default C predicate(Predicate<V> predicate, ViolationMessage violationMessage) {
-		this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
-				() -> new Object[] {}, NullAs.VALID));
-		return this.cast();
-	}
+    default C predicate(Predicate<V> predicate, ViolationMessage violationMessage) {
+        this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
+                () -> new HashMap<>(), NullAs.VALID));
+        return this.cast();
+    }
 
-	default C predicate(CustomConstraint<V> constraint) {
-		return this.predicate(constraint, constraint);
-	}
+    default C predicate(CustomConstraint<V> constraint) {
+        return this.predicate(constraint, constraint);
+    }
 
-	default C predicateNullable(Predicate<V> predicate,
-			ViolationMessage violationMessage) {
-		this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
-				() -> new Object[] {}, NullAs.INVALID));
-		return this.cast();
-	}
+    default C predicateNullable(Predicate<V> predicate,
+                                ViolationMessage violationMessage) {
+        this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
+                () -> new HashMap<>(), NullAs.INVALID));
+        return this.cast();
+    }
 
-	default C predicateNullable(CustomConstraint<V> constraint) {
-		return this.predicateNullable(constraint, constraint);
-	}
+    default C predicateNullable(CustomConstraint<V> constraint) {
+        return this.predicateNullable(constraint, constraint);
+    }
 
-	Deque<ConstraintPredicate<V>> predicates();
+    Deque<ConstraintPredicate<V>> predicates();
 }

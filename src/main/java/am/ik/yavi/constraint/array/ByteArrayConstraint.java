@@ -15,36 +15,37 @@
  */
 package am.ik.yavi.constraint.array;
 
+import am.ik.yavi.constraint.base.ContainerConstraintBase;
+import am.ik.yavi.core.ConstraintPredicate;
+
 import java.util.function.ToIntFunction;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.ARRAY_CONTAINS;
-
-import am.ik.yavi.constraint.base.ContainerConstraintBase;
-import am.ik.yavi.core.ConstraintPredicate;
+import static am.ik.yavi.utils.MapUtils.singleArgs;
 
 public class ByteArrayConstraint<T>
-		extends ContainerConstraintBase<T, byte[], ByteArrayConstraint<T>> {
+        extends ContainerConstraintBase<T, byte[], ByteArrayConstraint<T>> {
 
-	@Override
-	public ByteArrayConstraint<T> cast() {
-		return this;
-	}
+    @Override
+    public ByteArrayConstraint<T> cast() {
+        return this;
+    }
 
-	public ByteArrayConstraint<T> contains(byte v) {
-		this.predicates().add(ConstraintPredicate.of(x -> {
-			for (byte e : x) {
-				if (e == v) {
-					return true;
-				}
-			}
-			return false;
-		}, ARRAY_CONTAINS, () -> new Object[] { v }, VALID));
-		return this;
-	}
+    public ByteArrayConstraint<T> contains(byte v) {
+        this.predicates().add(ConstraintPredicate.of(x -> {
+            for (byte e : x) {
+                if (e == v) {
+                    return true;
+                }
+            }
+            return false;
+        }, ARRAY_CONTAINS, () -> singleArgs("v", v), VALID));
+        return this;
+    }
 
-	@Override
-	protected ToIntFunction<byte[]> size() {
-		return x -> x.length;
-	}
+    @Override
+    protected ToIntFunction<byte[]> size() {
+        return x -> x.length;
+    }
 }

@@ -17,11 +17,11 @@ package am.ik.yavi.message;
 
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Map;
 
 public class SimpleMessageFormatter implements MessageFormatter {
-	@Override
-	public String format(String messageKey, String defaultMessageFormat, Object[] args,
-			Locale locale) {
-		return new MessageFormat(defaultMessageFormat, locale).format(args);
-	}
+    @Override
+    public String format(String messageKey, String defaultMessageFormat, Map<String, Object> args, Locale locale) {
+        return new MessageFormat(defaultMessageFormat, locale).format(args.values().toArray());
+    }
 }

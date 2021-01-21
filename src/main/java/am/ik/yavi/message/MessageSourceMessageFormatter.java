@@ -15,11 +15,12 @@
  */
 package am.ik.yavi.message;
 
+import am.ik.yavi.jsr305.Nullable;
+
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
-
-import am.ik.yavi.jsr305.Nullable;
 
 /**
  * <code>MessageFormatter</code> implementation that delegates formatting to
@@ -41,29 +42,27 @@ import am.ik.yavi.jsr305.Nullable;
  * @since 0.5.0
  */
 public class MessageSourceMessageFormatter implements MessageFormatter {
-	private final MessageSource messageSource;
+    private final MessageSource messageSource;
 
-	public MessageSourceMessageFormatter(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
+    public MessageSourceMessageFormatter(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
-	@Override
-	public String format(String messageKey, String defaultMessageFormat, Object[] args,
-			Locale locale) {
-		final String defaultMessage = new MessageFormat(defaultMessageFormat, locale)
-				.format(args);
-		final String message = this.messageSource.getMessage(messageKey, args,
-				defaultMessage, locale);
-		return Objects.requireNonNull(message, defaultMessage);
-	}
+    @Override
+    public String format(String messageKey, String defaultMessageFormat, Map<String, Object> args,
+                         Locale locale) {
+        final String defaultMessage = new MessageFormat(defaultMessageFormat, locale)
+                .format(args);
+        final String message = this.messageSource.getMessage(messageKey, args, defaultMessage, locale);
+        return Objects.requireNonNull(message, defaultMessage);
+    }
 
-	/**
-	 * A compatible interface of Spring Framework's <code>MessageSource</code>.
-	 */
-	@FunctionalInterface
-	public interface MessageSource {
-		@Nullable
-		String getMessage(String code, Object[] args, String defaultMessage,
-				Locale locale);
-	}
+    /**
+     * A compatible interface of Spring Framework's <code>MessageSource</code>.
+     */
+    @FunctionalInterface
+    public interface MessageSource {
+        @Nullable
+        String getMessage(String code, Map<String, Object> args, String defaultMessage, Locale locale);
+    }
 }

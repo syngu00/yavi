@@ -16,6 +16,8 @@
 package am.ik.yavi.core;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import org.junit.Test;
@@ -283,8 +285,11 @@ public class CustomValidatorTest {
 		}
 
 		@Override
-		public Object[] arguments() {
-			return new Object[] { this.start, this.end };
+		public Map<String, Object> arguments() {
+			Map<String, Object> args = new HashMap<>();
+			args.put("start", start);
+			args.put("end", end);
+			return args;
 		}
 
 		@Override
