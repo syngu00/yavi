@@ -19,7 +19,7 @@ import am.ik.yavi.core.Constraint;
 import am.ik.yavi.core.ConstraintPredicate;
 import am.ik.yavi.core.ViolatedValue;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -87,7 +87,7 @@ public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C
     public C notEmpty() {
         this.predicates()
                 .add(ConstraintPredicate.of(x -> x != null && size().applyAsInt(x) != 0,
-                        CONTAINER_NOT_EMPTY, HashMap::new, INVALID));
+                        CONTAINER_NOT_EMPTY, LinkedHashMap::new, INVALID));
         return cast();
     }
 

@@ -19,12 +19,7 @@ import am.ik.yavi.fn.Either;
 import am.ik.yavi.fn.Pair;
 import am.ik.yavi.message.MessageFormatter;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -236,9 +231,11 @@ public class Validator<T> implements ValidatorSubset<T> {
     }
 
     private Map<String, Object> pad(String name, Map<String, Object> args, ViolatedValue violatedValue) {
-        args.put("name", name);
-        args.put("value", violatedValue.value());
-        return args;
+        Map<String,Object> pad = new LinkedHashMap<>();
+        pad.put("name", name);
+        pad.putAll(args);
+        pad.put("value", violatedValue.value());
+        return pad;
     }
 
     @SuppressWarnings("unchecked")
@@ -266,11 +263,12 @@ public class Validator<T> implements ValidatorSubset<T> {
                 violated.ifPresent(violatedValue -> {
                     String name = this.prefix
                             + this.indexedName(predicates.name(), collectionName, index);
-                    Map<String, Object> args = constraintPredicate.args().get();
+                    Map<String, Object> args = pad(name, constraintPredicate.args().get(), violatedValue);
+                    args.putAll(predicates.args());
                     violations.add(new ConstraintViolation(name,
                             constraintPredicate.messageKey(),
                             constraintPredicate.defaultMessageFormat(),
-                            pad(name, args, violatedValue), this.messageFormatter,
+                            args, this.messageFormatter,
                             locale));
                 });
             }

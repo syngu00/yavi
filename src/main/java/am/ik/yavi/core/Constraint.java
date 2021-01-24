@@ -17,6 +17,7 @@ package am.ik.yavi.core;
 
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -29,7 +30,7 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
 
     default C isNull() {
         this.predicates().add(ConstraintPredicate.of(Objects::isNull, OBJECT_IS_NULL,
-                () -> new HashMap<>(), NullAs.INVALID));
+                () -> new LinkedHashMap<>(), NullAs.INVALID));
         return this.cast();
     }
 
@@ -53,13 +54,13 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
 
     default C notNull() {
         this.predicates().add(ConstraintPredicate.of(Objects::nonNull, OBJECT_NOT_NULL,
-                () -> new HashMap<>(), NullAs.INVALID));
+                () -> new LinkedHashMap<>(), NullAs.INVALID));
         return this.cast();
     }
 
     default C predicate(Predicate<V> predicate, ViolationMessage violationMessage) {
         this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
-                () -> new HashMap<>(), NullAs.VALID));
+                () -> new LinkedHashMap<>(), NullAs.VALID));
         return this.cast();
     }
 
@@ -70,7 +71,7 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
     default C predicateNullable(Predicate<V> predicate,
                                 ViolationMessage violationMessage) {
         this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
-                () -> new HashMap<>(), NullAs.INVALID));
+                () -> new LinkedHashMap<>(), NullAs.INVALID));
         return this.cast();
     }
 

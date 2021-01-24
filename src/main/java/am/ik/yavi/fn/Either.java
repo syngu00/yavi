@@ -15,12 +15,12 @@
  */
 package am.ik.yavi.fn;
 
+import am.ik.yavi.jsr305.Nullable;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
-import am.ik.yavi.jsr305.Nullable;
 
 public final class Either<L, R> {
 	final L left;

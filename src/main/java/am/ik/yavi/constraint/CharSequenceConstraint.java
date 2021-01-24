@@ -31,11 +31,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.regex.Pattern;
@@ -118,7 +114,7 @@ public class CharSequenceConstraint<T, E extends CharSequence>
                 return true;
             }
             return VALID_EMAIL_ADDRESS_REGEX.matcher(x).matches();
-        }, CHAR_SEQUENCE_EMAIL, HashMap::new, VALID));
+        }, CHAR_SEQUENCE_EMAIL, LinkedHashMap::new, VALID));
         return this;
     }
 
@@ -137,7 +133,7 @@ public class CharSequenceConstraint<T, E extends CharSequence>
         this.predicates()
                 .add(ConstraintPredicate.of(
                         x -> x != null && trim(x.toString()).length() != 0,
-                        CHAR_SEQUENCE_NOT_BLANK, HashMap::new, INVALID));
+                        CHAR_SEQUENCE_NOT_BLANK, LinkedHashMap::new, INVALID));
         return this;
     }
 
@@ -158,7 +154,7 @@ public class CharSequenceConstraint<T, E extends CharSequence>
             } catch (MalformedURLException e) {
                 return false;
             }
-        }, CHAR_SEQUENCE_URL, HashMap::new, VALID));
+        }, CHAR_SEQUENCE_URL, LinkedHashMap::new, VALID));
         return this;
     }
 

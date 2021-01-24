@@ -1,6 +1,6 @@
 package am.ik.yavi.utils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class MapUtils {
@@ -9,7 +9,7 @@ public final class MapUtils {
     }
 
     public static Map<String, Object> singleArgs(String key, Object value) {
-        HashMap<String, Object> map = new HashMap<>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put(key, value);
         return map;
     }

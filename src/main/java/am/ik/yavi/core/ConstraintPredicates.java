@@ -16,7 +16,10 @@
 package am.ik.yavi.core;
 
 import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ConstraintPredicates<T, V> {
 	private final String name;
@@ -25,11 +28,17 @@ public class ConstraintPredicates<T, V> {
 
 	private final Function<T, V> toValue;
 
+	private final Map<String, Object> args = new LinkedHashMap<>();
+
 	public ConstraintPredicates(Function<T, V> toValue, String name,
 			Deque<ConstraintPredicate<V>> predicates) {
 		this.toValue = toValue;
 		this.name = name;
 		this.predicates = predicates;
+	}
+
+	public void addArgs(Supplier<Map<String, Object>> args) {
+		this.args.putAll(args.get());
 	}
 
 	public final String name() {
@@ -43,4 +52,10 @@ public class ConstraintPredicates<T, V> {
 	public final Function<T, V> toValue() {
 		return this.toValue;
 	}
+
+	public final Map<String, Object> args() {
+		return this.args;
+	}
+
+
 }

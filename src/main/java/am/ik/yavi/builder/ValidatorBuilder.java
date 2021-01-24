@@ -73,13 +73,7 @@ import am.ik.yavi.meta.StringConstraintMeta;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -169,6 +163,25 @@ public class ValidatorBuilder<T> {
     public <E> BiValidator<T, E> build(BiValidator.ErrorHandler<E> errorHandler) {
         final Validator<T> validator = this.build();
         return new BiValidator<>(validator, errorHandler);
+    }
+
+    public ValidatorBuilder<T> args(String key, Object value) {
+        Map<String, Object> args = new LinkedHashMap<>();
+        args.put(key, value);
+        this.args(args);
+        return this;
+    }
+
+    public ValidatorBuilder<T> args(Map<String, Object> args) {
+        this.args(() -> args);
+        return this;
+    }
+
+    public ValidatorBuilder<T> args(Supplier<Map<String, Object>> args) {
+        if (!this.predicatesList.isEmpty()) {
+            this.predicatesList.get(predicatesList.size() - 1).addArgs(args);
+        }
+        return this;
     }
 
     public <E extends CharSequence> ValidatorBuilder<T> constraint(ToCharSequence<T, E> f,

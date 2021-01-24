@@ -19,6 +19,7 @@ import am.ik.yavi.constraint.base.ConstraintBase;
 import am.ik.yavi.core.ConstraintPredicate;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.BOOLEAN_IS_FALSE;
@@ -34,13 +35,13 @@ public class BooleanConstraint<T>
 
     public BooleanConstraint<T> isFalse() {
         this.predicates().add(ConstraintPredicate.of(x -> !x, BOOLEAN_IS_FALSE,
-                HashMap::new, VALID));
+                LinkedHashMap::new, VALID));
         return this;
     }
 
     public BooleanConstraint<T> isTrue() {
         this.predicates().add(ConstraintPredicate.of(x -> x, BOOLEAN_IS_TRUE,
-                HashMap::new, VALID));
+                LinkedHashMap::new, VALID));
         return this;
     }
 }

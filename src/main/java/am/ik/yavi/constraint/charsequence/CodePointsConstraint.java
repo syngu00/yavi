@@ -19,11 +19,7 @@ import am.ik.yavi.constraint.CharSequenceConstraint;
 import am.ik.yavi.core.ConstraintPredicate;
 import am.ik.yavi.core.ViolatedValue;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static am.ik.yavi.core.NullAs.VALID;
@@ -61,7 +57,7 @@ public class CodePointsConstraint<T, E extends CharSequence>
                     .map(i -> new String(new int[]{i}, 0, 1)) //
                     .collect(Collectors.toList());
             return Optional.of(new ViolatedValue(includedList));
-        }, CODE_POINTS_NOT_INCLUDED, HashMap::new, VALID));
+        }, CODE_POINTS_NOT_INCLUDED, LinkedHashMap::new, VALID));
         return this;
     }
 
@@ -75,7 +71,7 @@ public class CodePointsConstraint<T, E extends CharSequence>
                     .map(i -> new String(new int[]{i}, 0, 1)) //
                     .collect(Collectors.toList());
             return Optional.of(new ViolatedValue(excludedList));
-        }, CODE_POINTS_ALL_INCLUDED, HashMap::new, VALID));
+        }, CODE_POINTS_ALL_INCLUDED, LinkedHashMap::new, VALID));
         return this;
     }
 
