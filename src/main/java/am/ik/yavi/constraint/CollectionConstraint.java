@@ -23,7 +23,7 @@ import java.util.function.ToIntFunction;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.COLLECTION_CONTAINS;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public class CollectionConstraint<T, L extends Collection<E>, E>
         extends ContainerConstraintBase<T, L, CollectionConstraint<T, L, E>> {
@@ -35,7 +35,7 @@ public class CollectionConstraint<T, L extends Collection<E>, E>
 
     public CollectionConstraint<T, L, E> contains(E s) {
         this.predicates().add(ConstraintPredicate.of(x -> x.contains(s),
-                COLLECTION_CONTAINS, () -> singleArgs("s", s), VALID));
+                COLLECTION_CONTAINS, () -> create("s", s), VALID));
         return this;
     }
 

@@ -17,6 +17,7 @@ package am.ik.yavi.core;
 
 import am.ik.yavi.jsr305.Nullable;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ConstraintPredicate<V> {
-    private final Supplier<Map<String, Object>> args;
+    private final Map<String, Object> args = new LinkedHashMap<>();
 
     private final String defaultMessageFormat;
 
@@ -45,7 +46,7 @@ public class ConstraintPredicate<V> {
         this.predicate = predicate;
         this.messageKey = messageKey;
         this.defaultMessageFormat = defaultMessageFormat;
-        this.args = args;
+        this.args.putAll(args.get());
         this.nullAs = nullAs;
     }
 
@@ -65,7 +66,7 @@ public class ConstraintPredicate<V> {
         };
     }
 
-    public Supplier<Map<String, Object>> args() {
+    public Map<String, Object> args() {
         return this.args;
     }
 
@@ -82,16 +83,19 @@ public class ConstraintPredicate<V> {
     }
 
     public ConstraintPredicate<V> overrideMessage(ViolationMessage message) {
-        return new ConstraintPredicate<>(this.predicate, message, this.args, this.nullAs);
+        return new ConstraintPredicate<>(this.predicate, message, () -> this.args, this.nullAs);
     }
 
     public ConstraintPredicate<V> overrideMessage(String message) {
-        return new ConstraintPredicate<>(this.predicate, this.messageKey, message,
-                this.args, this.nullAs);
+        return new ConstraintPredicate<>(this.predicate, this.messageKey, message, () -> this.args, this.nullAs);
     }
 
     public final Predicate<V> predicate() {
         return this.predicate;
+    }
+
+    public void addArgs(Supplier<Map<String, Object>> args) {
+        this.args().putAll(args.get());
     }
 
     public Optional<ViolatedValue> violatedValue(@Nullable V target) {

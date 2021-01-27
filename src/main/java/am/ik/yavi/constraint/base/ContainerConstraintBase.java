@@ -33,7 +33,7 @@ import static am.ik.yavi.core.ViolationMessage.Default.CONTAINER_GREATER_THAN_OR
 import static am.ik.yavi.core.ViolationMessage.Default.CONTAINER_LESS_THAN;
 import static am.ik.yavi.core.ViolationMessage.Default.CONTAINER_LESS_THAN_OR_EQUAL;
 import static am.ik.yavi.core.ViolationMessage.Default.CONTAINER_NOT_EMPTY;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C>>
         extends ConstraintBase<T, V, C> {
@@ -43,7 +43,7 @@ public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size().applyAsInt(x) == size,
                                 this.size()),
-                        CONTAINER_FIXED_SIZE, () -> singleArgs("size", size), VALID));
+                        CONTAINER_FIXED_SIZE, () -> create("size", size), VALID));
         return cast();
     }
 
@@ -52,7 +52,7 @@ public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size().applyAsInt(x) > min,
                                 this.size()),
-                        CONTAINER_GREATER_THAN, () -> singleArgs("min", min), VALID));
+                        CONTAINER_GREATER_THAN, () -> create("min", min), VALID));
         return cast();
     }
 
@@ -61,7 +61,7 @@ public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size().applyAsInt(x) >= min,
                                 this.size()),
-                        CONTAINER_GREATER_THAN_OR_EQUAL, () -> singleArgs("min", min),
+                        CONTAINER_GREATER_THAN_OR_EQUAL, () -> create("min", min),
                         VALID));
         return cast();
     }
@@ -71,7 +71,7 @@ public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size().applyAsInt(x) < max,
                                 this.size()),
-                        CONTAINER_LESS_THAN, () -> singleArgs("max", max), VALID));
+                        CONTAINER_LESS_THAN, () -> create("max", max), VALID));
         return cast();
     }
 
@@ -80,7 +80,7 @@ public abstract class ContainerConstraintBase<T, V, C extends Constraint<T, V, C
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size().applyAsInt(x) <= max,
                                 this.size()),
-                        CONTAINER_LESS_THAN_OR_EQUAL, () -> singleArgs("max", max), VALID));
+                        CONTAINER_LESS_THAN_OR_EQUAL, () -> create("max", max), VALID));
         return cast();
     }
 

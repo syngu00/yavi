@@ -22,7 +22,7 @@ import java.util.function.ToIntFunction;
 
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.ARRAY_CONTAINS;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public class ShortArrayConstraint<T>
         extends ContainerConstraintBase<T, short[], ShortArrayConstraint<T>> {
@@ -40,7 +40,7 @@ public class ShortArrayConstraint<T>
                 }
             }
             return false;
-        }, ARRAY_CONTAINS, () -> singleArgs("v", v), VALID));
+        }, ARRAY_CONTAINS, () -> create("v", v), VALID));
         return this;
     }
 

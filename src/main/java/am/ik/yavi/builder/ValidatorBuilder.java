@@ -53,7 +53,7 @@ import am.ik.yavi.core.NestedValidatorSubset;
 import am.ik.yavi.core.NullAs;
 import am.ik.yavi.core.Validator;
 import am.ik.yavi.core.ValidatorSubset;
-import am.ik.yavi.core.ViolatedArguments;
+import am.ik.yavi.core.ViolatedArgumentsSupplier;
 import am.ik.yavi.core.ViolationMessage;
 import am.ik.yavi.fn.Pair;
 import am.ik.yavi.message.MessageFormatter;
@@ -163,25 +163,6 @@ public class ValidatorBuilder<T> {
     public <E> BiValidator<T, E> build(BiValidator.ErrorHandler<E> errorHandler) {
         final Validator<T> validator = this.build();
         return new BiValidator<>(validator, errorHandler);
-    }
-
-    public ValidatorBuilder<T> args(String key, Object value) {
-        Map<String, Object> args = new LinkedHashMap<>();
-        args.put(key, value);
-        this.args(args);
-        return this;
-    }
-
-    public ValidatorBuilder<T> args(Map<String, Object> args) {
-        this.args(() -> args);
-        return this;
-    }
-
-    public ValidatorBuilder<T> args(Supplier<Map<String, Object>> args) {
-        if (!this.predicatesList.isEmpty()) {
-            this.predicatesList.get(predicatesList.size() - 1).addArgs(args);
-        }
-        return this;
     }
 
     public <E extends CharSequence> ValidatorBuilder<T> constraint(ToCharSequence<T, E> f,
@@ -501,8 +482,7 @@ public class ValidatorBuilder<T> {
         return this.constraint(f, name, c, DoubleArrayConstraint::new);
     }
 
-    public ValidatorBuilder<T> constraintOnCondition(ConstraintCondition<T> condition,
-                                                     Validator<T> validator) {
+    public ValidatorBuilder<T> constraintOnCondition(ConstraintCondition<T> condition, Validator<T> validator) {
         this.conditionalValidators.add(new Pair<>(condition, validator));
         return this;
     }
@@ -542,7 +522,7 @@ public class ValidatorBuilder<T> {
         return this.constraint(meta.toValue(), meta.name(), c, ObjectConstraint::new);
     }
 
-    public ValidatorBuilder<T> constraintOnTarget(Predicate<T> predicate, String name, ViolatedArguments violatedArguments, ViolationMessage violationMessage) {
+    public ValidatorBuilder<T> constraintOnTarget(Predicate<T> predicate, String name, ViolatedArgumentsSupplier violatedArguments, ViolationMessage violationMessage) {
         Deque<ConstraintPredicate<T>> predicates = new LinkedList<>();
         predicates.add(ConstraintPredicate.of(predicate, violationMessage, violatedArguments::arguments, NullAs.INVALID));
         this.predicatesList.add(new ConstraintPredicates<>(Function.identity(), name, predicates));

@@ -15,16 +15,18 @@
  */
 package am.ik.yavi.core;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
-public interface CustomConstraint<V> extends Predicate<V>, ViolationMessage, ViolatedArgumentsSupplier {
+public interface ViolatedArgumentsSupplier {
 
-    Map<String, Object> EMPTY_ARRAY = new HashMap<>();
-
-    @Override
-    default Map<String, Object> arguments() {
-        return EMPTY_ARRAY;
-    }
+    /**
+     * returns arguments that can be used to build the violation message<br>
+     * The argument can be access by <code>{1}</code>, <code>{2}</code> , .... <br>
+     * Note that <code>{0}</code> is reserved for the property name and the last index in
+     * reserved for the actual value.<br>
+     * The implementer don't need to include the property name and the actual value.
+     *
+     * @return the array of arguments
+     */
+    Map<String, Object> arguments();
 }

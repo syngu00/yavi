@@ -21,7 +21,7 @@ import org.junit.Test;
 import java.util.Locale;
 import java.util.Map;
 
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConstraintViolationsTest {
@@ -31,14 +31,14 @@ public class ConstraintViolationsTest {
         SimpleMessageFormatter messageFormatter = new SimpleMessageFormatter();
         ConstraintViolations violations = new ConstraintViolations();
         violations.add(new ConstraintViolation("foo0", "abc0", "hello0",
-                singleArgs("0", 1), messageFormatter, Locale.getDefault()));
+                create("0", 1), messageFormatter, Locale.getDefault()));
         violations.add(new ConstraintViolation("foo1", "abc1", "hello1",
-                singleArgs("0", 1), messageFormatter, Locale.getDefault()));
+                create("0", 1), messageFormatter, Locale.getDefault()));
 
         BindingResult bindingResult = new BindingResult();
         violations.apply(bindingResult::rejectValue);
         assertThat(bindingResult.toString())
-                .isEqualTo("[foo0_abc0_[1]_hello0][foo1_abc1_[1]_hello1]");
+                .isEqualTo("[foo0_abc0_{0=1}_hello0][foo1_abc1_{0=1}_hello1]");
     }
 
     static class BindingResult {

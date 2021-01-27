@@ -18,8 +18,6 @@ package am.ik.yavi.constraint.base;
 import am.ik.yavi.core.Constraint;
 import am.ik.yavi.core.ConstraintPredicate;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import static am.ik.yavi.core.NullAs.VALID;
@@ -27,32 +25,32 @@ import static am.ik.yavi.core.ViolationMessage.Default.NUMERIC_GREATER_THAN;
 import static am.ik.yavi.core.ViolationMessage.Default.NUMERIC_GREATER_THAN_OR_EQUAL;
 import static am.ik.yavi.core.ViolationMessage.Default.NUMERIC_LESS_THAN;
 import static am.ik.yavi.core.ViolationMessage.Default.NUMERIC_LESS_THAN_OR_EQUAL;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public abstract class NumericConstraintBase<T, V, C extends Constraint<T, V, C>>
         extends ConstraintBase<T, V, C> {
 
     public C greaterThan(V min) {
         this.predicates().add(ConstraintPredicate.of(this.isGreaterThan(min),
-                NUMERIC_GREATER_THAN, () -> singleArgs("min", min), VALID));
+                NUMERIC_GREATER_THAN, () -> create("min", min), VALID));
         return cast();
     }
 
     public C greaterThanOrEqual(V min) {
         this.predicates().add(ConstraintPredicate.of(this.isGreaterThanOrEqual(min),
-                NUMERIC_GREATER_THAN_OR_EQUAL, () -> singleArgs("min", min), VALID));
+                NUMERIC_GREATER_THAN_OR_EQUAL, () -> create("min", min), VALID));
         return cast();
     }
 
     public C lessThan(V max) {
         this.predicates().add(ConstraintPredicate.of(this.isLessThan(max),
-                NUMERIC_LESS_THAN, () -> singleArgs("max", max), VALID));
+                NUMERIC_LESS_THAN, () -> create("max", max), VALID));
         return cast();
     }
 
     public C lessThanOrEqual(V max) {
         this.predicates().add(ConstraintPredicate.of(this.isLessThanOrEqual(max),
-                NUMERIC_LESS_THAN_OR_EQUAL, () -> singleArgs("max", max), VALID));
+                NUMERIC_LESS_THAN_OR_EQUAL, () -> create("max", max), VALID));
         return cast();
     }
 

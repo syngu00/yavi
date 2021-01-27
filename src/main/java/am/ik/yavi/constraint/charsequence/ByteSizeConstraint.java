@@ -26,7 +26,7 @@ import static am.ik.yavi.core.ViolationMessage.Default.BYTE_SIZE_GREATER_THAN;
 import static am.ik.yavi.core.ViolationMessage.Default.BYTE_SIZE_GREATER_THAN_OR_EQUAL;
 import static am.ik.yavi.core.ViolationMessage.Default.BYTE_SIZE_LESS_THAN;
 import static am.ik.yavi.core.ViolationMessage.Default.BYTE_SIZE_LESS_THAN_OR_EQUAL;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public class ByteSizeConstraint<T, E extends CharSequence>
         extends CharSequenceConstraint<T, E> {
@@ -47,7 +47,7 @@ public class ByteSizeConstraint<T, E extends CharSequence>
         this.predicates()
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size(x) == size, this::size),
-                        BYTE_SIZE_FIXED_SIZE, () -> singleArgs("size", size), VALID));
+                        BYTE_SIZE_FIXED_SIZE, () -> create("size", size), VALID));
         return this;
     }
 
@@ -55,14 +55,14 @@ public class ByteSizeConstraint<T, E extends CharSequence>
         this.predicates()
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size(x) > min, this::size),
-                        BYTE_SIZE_GREATER_THAN, () -> singleArgs("min", min), VALID));
+                        BYTE_SIZE_GREATER_THAN, () -> create("min", min), VALID));
         return this;
     }
 
     public ByteSizeConstraint<T, E> greaterThanOrEqual(int min) {
         this.predicates().add(ConstraintPredicate.withViolatedValue(
                 this.checkSizePredicate(x -> size(x) >= min, this::size),
-                BYTE_SIZE_GREATER_THAN_OR_EQUAL, () -> singleArgs("min", min), VALID));
+                BYTE_SIZE_GREATER_THAN_OR_EQUAL, () -> create("min", min), VALID));
         return this;
     }
 
@@ -70,7 +70,7 @@ public class ByteSizeConstraint<T, E extends CharSequence>
         this.predicates()
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size(x) < max, this::size),
-                        BYTE_SIZE_LESS_THAN, () -> singleArgs("max", max), VALID));
+                        BYTE_SIZE_LESS_THAN, () -> create("max", max), VALID));
         return this;
     }
 
@@ -78,7 +78,7 @@ public class ByteSizeConstraint<T, E extends CharSequence>
         this.predicates()
                 .add(ConstraintPredicate.withViolatedValue(
                         this.checkSizePredicate(x -> size(x) <= max, this::size),
-                        BYTE_SIZE_LESS_THAN_OR_EQUAL, () -> singleArgs("max", max), VALID));
+                        BYTE_SIZE_LESS_THAN_OR_EQUAL, () -> create("max", max), VALID));
         return this;
     }
 

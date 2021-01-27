@@ -24,7 +24,7 @@ import java.util.function.ToIntFunction;
 import static am.ik.yavi.core.NullAs.VALID;
 import static am.ik.yavi.core.ViolationMessage.Default.MAP_CONTAINS_KEY;
 import static am.ik.yavi.core.ViolationMessage.Default.MAP_CONTAINS_VALUE;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public class MapConstraint<T, K, V>
         extends ContainerConstraintBase<T, Map<K, V>, MapConstraint<T, K, V>> {
@@ -36,13 +36,13 @@ public class MapConstraint<T, K, V>
 
     public MapConstraint<T, K, V> containsKey(K k) {
         this.predicates().add(ConstraintPredicate.of(x -> x.containsKey(k),
-                MAP_CONTAINS_KEY, () -> singleArgs("k", k), VALID));
+                MAP_CONTAINS_KEY, () -> create("k", k), VALID));
         return this;
     }
 
     public MapConstraint<T, K, V> containsValue(V v) {
         this.predicates().add(ConstraintPredicate.of(x -> x.containsValue(v),
-                MAP_CONTAINS_VALUE, () -> singleArgs("v", v), VALID));
+                MAP_CONTAINS_VALUE, () -> create("v", v), VALID));
         return this;
     }
 

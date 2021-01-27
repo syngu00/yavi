@@ -43,7 +43,7 @@ import static am.ik.yavi.core.ViolationMessage.Default.CHAR_SEQUENCE_EMAIL;
 import static am.ik.yavi.core.ViolationMessage.Default.CHAR_SEQUENCE_NOT_BLANK;
 import static am.ik.yavi.core.ViolationMessage.Default.CHAR_SEQUENCE_PATTERN;
 import static am.ik.yavi.core.ViolationMessage.Default.CHAR_SEQUENCE_URL;
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 
 public class CharSequenceConstraint<T, E extends CharSequence>
         extends ContainerConstraintBase<T, E, CharSequenceConstraint<T, E>> {
@@ -104,7 +104,7 @@ public class CharSequenceConstraint<T, E extends CharSequence>
 
     public CharSequenceConstraint<T, E> contains(CharSequence s) {
         this.predicates().add(ConstraintPredicate.of(x -> x.toString().contains(s),
-                CHAR_SEQUENCE_CONTAINS, () -> singleArgs("s", s), VALID));
+                CHAR_SEQUENCE_CONTAINS, () -> create("s", s), VALID));
         return this;
     }
 
@@ -139,7 +139,7 @@ public class CharSequenceConstraint<T, E extends CharSequence>
 
     public CharSequenceConstraint<T, E> pattern(String regex) {
         this.predicates().add(ConstraintPredicate.of(x -> Pattern.matches(regex, x),
-                CHAR_SEQUENCE_PATTERN, () -> singleArgs("regex", regex), VALID));
+                CHAR_SEQUENCE_PATTERN, () -> create("regex", regex), VALID));
         return this;
     }
 

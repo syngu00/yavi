@@ -16,10 +16,11 @@
 package am.ik.yavi.core;
 
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static am.ik.yavi.core.ViolationMessage.Default.OBJECT_IS_NULL;
 import static am.ik.yavi.core.ViolationMessage.Default.OBJECT_NOT_NULL;
@@ -30,7 +31,7 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
 
     default C isNull() {
         this.predicates().add(ConstraintPredicate.of(Objects::isNull, OBJECT_IS_NULL,
-                () -> new LinkedHashMap<>(), NullAs.INVALID));
+                LinkedHashMap::new, NullAs.INVALID));
         return this.cast();
     }
 
@@ -54,13 +55,13 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
 
     default C notNull() {
         this.predicates().add(ConstraintPredicate.of(Objects::nonNull, OBJECT_NOT_NULL,
-                () -> new LinkedHashMap<>(), NullAs.INVALID));
+                LinkedHashMap::new, NullAs.INVALID));
         return this.cast();
     }
 
     default C predicate(Predicate<V> predicate, ViolationMessage violationMessage) {
         this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
-                () -> new LinkedHashMap<>(), NullAs.VALID));
+                LinkedHashMap::new, NullAs.VALID));
         return this.cast();
     }
 
@@ -71,9 +72,29 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
     default C predicateNullable(Predicate<V> predicate,
                                 ViolationMessage violationMessage) {
         this.predicates().add(ConstraintPredicate.of(predicate, violationMessage,
-                () -> new LinkedHashMap<>(), NullAs.INVALID));
+                LinkedHashMap::new, NullAs.INVALID));
         return this.cast();
     }
+
+    default C args(String key, Object value) {
+        Map<String, Object> args = new LinkedHashMap<>();
+        args.put(key, value);
+        this.args(args);
+        return cast();
+    }
+
+    default C args(Map<String, Object> args) {
+        this.args(() -> args);
+        return cast();
+    }
+
+    default C args(Supplier<Map<String, Object>> args) {
+        if (!this.predicates().isEmpty()) {
+            this.predicates().getLast().addArgs(args);
+        }
+        return cast();
+    }
+
 
     default C predicateNullable(CustomConstraint<V> constraint) {
         return this.predicateNullable(constraint, constraint);

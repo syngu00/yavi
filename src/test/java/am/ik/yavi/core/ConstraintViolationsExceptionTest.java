@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static am.ik.yavi.utils.MapUtils.singleArgs;
+import static am.ik.yavi.core.ViolatedArguments.create;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ConstraintViolationsExceptionTest {
@@ -30,7 +30,7 @@ class ConstraintViolationsExceptionTest {
         final ConstraintViolations violations = new ConstraintViolations();
         final SimpleMessageFormatter messageFormatter = new SimpleMessageFormatter();
         violations.add(new ConstraintViolation("name1", "key", "{0} is invalid.",
-                singleArgs("0", "a"), messageFormatter, Locale.ENGLISH));
+                create("0", "a"), messageFormatter, Locale.ENGLISH));
         final ConstraintViolationsException exception = new ConstraintViolationsException(
                 "error!", violations);
         assertThat(exception.getMessage()).isEqualTo("error!");
@@ -41,7 +41,7 @@ class ConstraintViolationsExceptionTest {
         final ConstraintViolations violations = new ConstraintViolations();
         final SimpleMessageFormatter messageFormatter = new SimpleMessageFormatter();
         violations.add(new ConstraintViolation("name1", "key", "{0} is invalid.",
-                singleArgs("0", "a"), messageFormatter, Locale.ENGLISH));
+                create("0", "a"), messageFormatter, Locale.ENGLISH));
         final ConstraintViolationsException exception = new ConstraintViolationsException(
                 violations);
         assertThat(exception.getMessage()).isEqualTo("Constraint violations found!"
