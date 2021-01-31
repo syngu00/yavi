@@ -19,9 +19,16 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
+
+/**
+ * This {@link MessageFormatter} implementation is deprecated it will be replaced with {@link DefaultMessageFormatter}
+ */
+@Deprecated
 public class SimpleMessageFormatter implements MessageFormatter {
+
     @Override
     public String format(String messageKey, String defaultMessageFormat, Map<String, Object> args, Locale locale) {
         return new MessageFormat(defaultMessageFormat, locale).format(args.values().toArray());
     }
+
 }

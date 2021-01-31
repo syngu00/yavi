@@ -56,6 +56,7 @@ import am.ik.yavi.core.ValidatorSubset;
 import am.ik.yavi.core.ViolatedArgumentsSupplier;
 import am.ik.yavi.core.ViolationMessage;
 import am.ik.yavi.fn.Pair;
+import am.ik.yavi.message.DefaultMessageFormatter;
 import am.ik.yavi.message.MessageFormatter;
 import am.ik.yavi.message.SimpleMessageFormatter;
 import am.ik.yavi.meta.BigDecimalConstraintMeta;

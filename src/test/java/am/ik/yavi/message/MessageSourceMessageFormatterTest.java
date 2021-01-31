@@ -15,23 +15,22 @@
  */
 package am.ik.yavi.message;
 
+import am.ik.yavi.core.ViolatedArguments;
 import am.ik.yavi.message.MessageSourceMessageFormatter.MessageSource;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MessageSourceMessageFormatterTest {
 
-	/*
+
     @Test
     void format() {
-        final MessageSource messageSource = (code, args, defaultMessage, locale) -> "Message " + code + " " + Arrays.toString(args);
+        final MessageSource messageSource = (code, args, defaultMessage, locale) -> "Message " + code + " " + args.toString();
         final MessageSourceMessageFormatter messageFormatter = new MessageSourceMessageFormatter(messageSource);
-        final String message = messageFormatter.format("demo", "", new Object[]{1, 2}, Locale.ENGLISH);
-        assertThat(message).isEqualTo("Message demo [1, 2]");
+        final String message = messageFormatter.format("demo", "", ViolatedArguments.create().args("0", "1"), Locale.ENGLISH);
+        assertThat(message).isEqualTo("Message demo {0=1}");
     }
-	*/
 }

@@ -79,19 +79,19 @@ public interface Constraint<T, V, C extends Constraint<T, V, C>> {
     default C args(String key, Object value) {
         Map<String, Object> args = new LinkedHashMap<>();
         args.put(key, value);
-        this.args(args);
-        return cast();
+        return this.args(args);
     }
 
     default C args(Map<String, Object> args) {
-        this.args(() -> args);
-        return cast();
+        return this.args(() -> args);
     }
 
     default C args(Supplier<Map<String, Object>> args) {
-        if (!this.predicates().isEmpty()) {
-            this.predicates().getLast().addArgs(args);
+        ConstraintPredicate<V> predicate = this.predicates().pollLast();
+        if (predicate == null) {
+            throw new IllegalStateException("no constraint found to override!");
         }
+        this.predicates().addLast(predicate.addArgs(args));
         return cast();
     }
 

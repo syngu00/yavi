@@ -94,8 +94,9 @@ public class ConstraintPredicate<V> {
         return this.predicate;
     }
 
-    public void addArgs(Supplier<Map<String, Object>> args) {
+    public ConstraintPredicate<V> addArgs(Supplier<Map<String, Object>> args) {
         this.args().putAll(args.get());
+        return this;
     }
 
     public Optional<ViolatedValue> violatedValue(@Nullable V target) {

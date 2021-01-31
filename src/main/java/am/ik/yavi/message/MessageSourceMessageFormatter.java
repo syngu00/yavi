@@ -52,7 +52,7 @@ public class MessageSourceMessageFormatter implements MessageFormatter {
     public String format(String messageKey, String defaultMessageFormat, Map<String, Object> args,
                          Locale locale) {
         final String defaultMessage = new MessageFormat(defaultMessageFormat, locale)
-                .format(args);
+                .format(args.values().toArray());
         final String message = this.messageSource.getMessage(messageKey, args, defaultMessage, locale);
         return Objects.requireNonNull(message, defaultMessage);
     }
