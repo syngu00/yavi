@@ -78,6 +78,24 @@ class ValidatorBuilderExtensionsTest {
         Assertions.assertThat(violation.messageKey()).isEqualTo("container.lessThan")
     }
 
+    @Test
+    fun konstraintOnCharSequenceExtraArgs() {
+        val validator = ValidatorBuilder.of<DemoString>()
+                .konstraint(DemoString::x) { notEmpty().lessThan(5).args("args", "extra") }
+                .build()
+
+        var demo = DemoString("foo")
+        var violations = validator.validate(demo)
+        Assertions.assertThat(violations.isValid).isTrue()
+
+        demo = DemoString("foofoo")
+        violations = validator.validate(demo)
+        Assertions.assertThat(violations.isValid).isFalse()
+        Assertions.assertThat(violations.size).isEqualTo(1)
+        val violation = violations[0]
+        Assertions.assertThat(violation.args()["args"]).isEqualTo("extra");
+    }
+
 
     @Test
     fun konstraintOnBoolean() {
